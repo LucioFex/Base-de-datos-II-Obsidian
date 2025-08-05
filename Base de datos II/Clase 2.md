@@ -57,4 +57,29 @@ INSERT INTO t_producto (descripcion) VALUES
 SELECT * FROM dbo.t_producto;
 ```
 
+---
 
+```sql
+drop table dbo.t_producto
+
+create table dbo.t_producto(
+    id_producto integer identity(1,1) not null,
+    descripcion varchar(25) not null,
+    precio numeric(15,2) null
+)
+
+-- creando indice principal
+-- create index idx_producto_id_producto on dbo.t_producto(id_producto)
+
+-- puede existir mas de uno
+create  nonclustered index idx_producto_precio on dbo.t_producto(id_producto)
+
+-- se crea uno si o si
+create clustered index idx_producto_id_producto on dbo.t_producto(id_product
+```
+
+---
+
+![[Pasted image 20250805203111.png]]
+
+![[Pasted image 20250805203124.png]]
