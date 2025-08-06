@@ -1,7 +1,7 @@
 #clase_2
 
 
-# Estándares SDN
+# Estándares SDN (ejemplo de la empresa del profe)
 
 ![[Pasted image 20250805191720.png]]
 
