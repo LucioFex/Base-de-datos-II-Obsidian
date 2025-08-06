@@ -83,3 +83,15 @@ create clustered index idx_producto_id_producto on dbo.t_producto(id_product
 ![[Pasted image 20250805203111.png]]
 
 ![[Pasted image 20250805203124.png]]
+
+---
+
+![[Pasted image 20250805211616.png]]
+
+![[Pasted image 20250805215902.png]]
+
+![[Pasted image 20250805221201.png]]
+
+![[Pasted image 20250805221214.png]]
+![[Pasted image 20250805221255.png]]
+
