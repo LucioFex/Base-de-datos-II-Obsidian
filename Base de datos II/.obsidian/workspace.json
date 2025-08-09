@@ -35,7 +35,8 @@
               "title": "Resolución actividad de la clase 2"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -194,10 +195,11 @@
       "mermaid-tools:Open Mermaid Toolbar": false
     }
   },
-  "active": "7051157ee975b38e",
+  "active": "5af7320fd03f7ed5",
   "lastOpenFiles": [
-    "Resolución actividad de la clase 2.md",
+    "Clase 2 - Actividad post clase resuelta.sql",
     "Clase 2.md",
+    "Resolución actividad de la clase 2.md",
     "Pasted image 20250805221255.png",
     "Pasted image 20250805221214.png",
     "Pasted image 20250805221201.png",
