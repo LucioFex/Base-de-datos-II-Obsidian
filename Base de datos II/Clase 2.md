@@ -1,6 +1,5 @@
 #clase_2
 
-
 # Estándares SDN (ejemplo de la empresa del profe)
 
 ![[Pasted image 20250805191720.png]]
@@ -90,8 +89,11 @@ create clustered index idx_producto_id_producto on dbo.t_producto(id_product
 
 ![[Pasted image 20250805215902.png]]
 
+---
+
 ![[Pasted image 20250805221201.png]]
 
 ![[Pasted image 20250805221214.png]]
 ![[Pasted image 20250805221255.png]]
+# ![[Resolución actividad de la clase 2]]
 
