@@ -22,17 +22,17 @@
             }
           },
           {
-            "id": "5af7320fd03f7ed5",
+            "id": "01b424b7d6587cf6",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Resolución actividad de la clase 2.md",
+                "file": "Clase 3.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Resolución actividad de la clase 2"
+              "title": "Clase 3"
             }
           }
         ],
@@ -195,11 +195,16 @@
       "mermaid-tools:Open Mermaid Toolbar": false
     }
   },
-  "active": "5af7320fd03f7ed5",
+  "active": "01b424b7d6587cf6",
   "lastOpenFiles": [
-    "Clase 2 - Actividad post clase resuelta.sql",
+    "Pasted image 20250812184650.png",
+    "Pasted image 20250812184645.png",
+    "Pasted image 20250812184636.png",
+    "Pasted image 20250812184557.png",
     "Clase 2.md",
+    "Clase 3.md",
     "Resolución actividad de la clase 2.md",
+    "Clase 2 - Actividad post clase resuelta.sql",
     "Pasted image 20250805221255.png",
     "Pasted image 20250805221214.png",
     "Pasted image 20250805221201.png",
@@ -207,9 +212,6 @@
     "Pasted image 20250805211616.png",
     "Pasted image 20250805203124.png",
     "Pasted image 20250805203111.png",
-    "Pasted image 20250805202106.png",
-    "Pasted image 20250805200347.png",
-    "Pasted image 20250805200021.png",
     "Clase 1 PDF + Queries - BD 2.md",
     "Clase 1 - BD2.pdf",
     "Clase 1 - Consultas.sql",
