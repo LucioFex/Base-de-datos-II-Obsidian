@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "387f70863d9ede53",
+        "id": "6bb365da7eceb6e8",
         "type": "tabs",
         "children": [
           {
-            "id": "7051157ee975b38e",
+            "id": "bdfd238ba309ed21",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -20,37 +20,8 @@
               "icon": "lucide-file",
               "title": "Clase 2"
             }
-          },
-          {
-            "id": "01b424b7d6587cf6",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Clase 3.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Clase 3"
-            }
-          },
-          {
-            "id": "ab757034690a330c",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Para.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Para"
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -82,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "18",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -103,7 +74,8 @@
               "title": "Bookmarks"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -199,6 +171,7 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "bases:Create new base": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
@@ -209,12 +182,15 @@
       "mermaid-tools:Open Mermaid Toolbar": false
     }
   },
-  "active": "01b424b7d6587cf6",
+  "active": "bdfd238ba309ed21",
   "lastOpenFiles": [
+    "Clase 2.md",
+    "Para.md",
+    "Clase 1 - BD2.pdf",
+    "Resolución actividad de la clase 2.md",
+    "Clase 3.md",
     "Pasted image 20250812215810.png",
     "Pasted image 20250812215743.png",
-    "Para.md",
-    "Clase 3.md",
     "Pasted image 20250812215534.png",
     "Pasted image 20250812215511.png",
     "Pasted image 20250812211412.png",
@@ -223,12 +199,8 @@
     "Pasted image 20250812200503.png",
     "Pasted image 20250812200206.png",
     "Pasted image 20250812200118.png",
-    "Pasted image 20250812194258.png",
-    "Clase 2.md",
-    "Resolución actividad de la clase 2.md",
     "Clase 2 - Actividad post clase resuelta.sql",
     "Clase 1 PDF + Queries - BD 2.md",
-    "Clase 1 - BD2.pdf",
     "Clase 1 - Consultas.sql",
     "Welcome.md"
   ]
