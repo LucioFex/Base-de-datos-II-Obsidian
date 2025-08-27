@@ -228,4 +228,4 @@ From vw_producto_detalle
 ```
 
 
-[[Resolución actividad de la clase 3]]
+[[Actividad resuelta - Clase 3 - LE]]

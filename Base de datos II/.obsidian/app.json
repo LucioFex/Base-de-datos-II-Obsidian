@@ -6,5 +6,6 @@
     "margin": "0",
     "downscalePercent": 78
   },
-  "promptDelete": false
+  "promptDelete": false,
+  "alwaysUpdateLinks": true
 }
