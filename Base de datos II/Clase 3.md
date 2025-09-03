@@ -1,3 +1,4 @@
+
 #clase_3
 
 En esta clase descargamos Toad Data Modeler.
