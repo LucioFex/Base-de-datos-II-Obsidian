@@ -43,3 +43,34 @@
 
 ![[Pasted image 20250902212105.png]]
 
+---
+
+```sql
+create view vw_domicilio_emp
+as
+Select 
+      do.id_empresa,
+      do.descripcion, do.codigo_postal, 
+      l.descripcion as localidad,
+	  par.descripcion as partido,
+	  prov.descripcion as provincia
+From dbo.t_domicilio do,
+	dbo.t_localidad l,
+	dbo.t_partido par,
+	dbo.t_provincia prov
+Where do.id_localidad = l.id_localidad
+	and l.id_partido = par.id_partido
+	and par.id_provincia = prov.id_provincia
+```
+
+---
+# Tareas para la próxima clase:
+
+![[Pasted image 20250902213704.png]]
+
+
+Debemos arreglar la carga de la tabla t_domicilio
+Tenemos que crear las FK de todas las tablas 
+
+![[Pasted image 20250902213742.png]]
+
