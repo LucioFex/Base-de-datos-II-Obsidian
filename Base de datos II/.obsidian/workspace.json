@@ -20,8 +20,23 @@
               "icon": "lucide-file",
               "title": "Clase 6"
             }
+          },
+          {
+            "id": "b96a6860356bfd2e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Clase 7.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Clase 7"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -182,9 +197,10 @@
       "mermaid-tools:Open Mermaid Toolbar": false
     }
   },
-  "active": "14ddb2925ca5447d",
+  "active": "b96a6860356bfd2e",
   "lastOpenFiles": [
     "Clase 6.md",
+    "Clase 7.md",
     "Pasted image 20250902220210.png",
     "Pasted image 20250902220112.png",
     "Pasted image 20250902215814.png",
