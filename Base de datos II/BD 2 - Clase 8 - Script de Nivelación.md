@@ -1,6 +1,7 @@
 #clase_8
 
 # Script de nivelación
+![[Pasted image 20250914185050.png]]
 ![[BD2_Clase8_ScriptNivelacion.sql]]
 ```sql
 /* =========================================================
