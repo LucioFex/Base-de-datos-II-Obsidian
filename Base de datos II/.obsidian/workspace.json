@@ -27,24 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Clase 8.md",
+                "file": "BD 2 - Clase 8 - Script de Nivelación.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Clase 8"
-            }
-          },
-          {
-            "id": "a547e90e61c6f20b",
-            "type": "leaf",
-            "state": {
-              "type": "image",
-              "state": {
-                "file": "Pasted image 20250909194526.png"
-              },
-              "icon": "lucide-image",
-              "title": "Pasted image 20250909194526"
+              "title": "BD 2 - Clase 8 - Script de Nivelación"
             }
           }
         ],
@@ -210,11 +198,11 @@
   },
   "active": "0f2e55edfd578690",
   "lastOpenFiles": [
+    "Pasted image 20250909194526.png",
+    "BD 2 - Clase 8 - Script de Nivelación.md",
     "BD2_Clase8_ScriptNivelacion.sql",
     "BD2_Clase9_ScriptNivelacion.sql",
     "Clase 7.md",
-    "Clase 8.md",
-    "Pasted image 20250909194526.png",
     "Pasted image 20250909204422.png",
     "Pasted image 20250909202957.png",
     "Pasted image 20250909202951.png",

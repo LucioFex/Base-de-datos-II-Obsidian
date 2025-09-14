@@ -1,11 +1,6 @@
 #clase_8
 
-
-# Contenido
-```table-of-contents
-```
-
-# Sección previa: Script de nivelación
+# Script de nivelación
 ![[BD2_Clase8_ScriptNivelacion.sql]]
 ```sql
 /* =========================================================
