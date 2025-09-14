@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Clase 9.md",
+                "file": "Clase 8.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Clase 9"
+              "title": "Clase 8"
             }
           },
           {
@@ -210,9 +210,10 @@
   },
   "active": "0f2e55edfd578690",
   "lastOpenFiles": [
+    "BD2_Clase8_ScriptNivelacion.sql",
     "BD2_Clase9_ScriptNivelacion.sql",
     "Clase 7.md",
-    "Clase 9.md",
+    "Clase 8.md",
     "Pasted image 20250909194526.png",
     "Pasted image 20250909204422.png",
     "Pasted image 20250909202957.png",

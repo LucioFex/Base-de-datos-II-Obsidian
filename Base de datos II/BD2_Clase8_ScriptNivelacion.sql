@@ -1,14 +1,3 @@
-#clase_9
-
-
-# Contenido
-```table-of-contents
-```
-
-# Sección previa: Script de nivelación
-
-![[BD2_Clase9_ScriptNivelacion.sql]]
-```sql
 /* =========================================================
 Script de nivelación:
    RESET + CLONADO de la BD de la clase "practica_clase" → [TU PROPIA BD] (ej: "lesteban25")
@@ -134,7 +123,3 @@ BEGIN CATCH
   THROW;
 END CATCH
 GO
-```
-
-# Comienzo de la clase
-
