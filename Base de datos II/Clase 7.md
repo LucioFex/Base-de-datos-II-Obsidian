@@ -426,6 +426,3 @@ SELECT
 
 ## Ejercicio 8 (Ejemplo de Mario)
 ![[Pasted image 20250909204422.png]]
-```sql
-
-```
