@@ -1,6 +1,9 @@
 #clase_8
 
 # Script de nivelación
+
+## Estructura y datos
+
 ![[Pasted image 20250914185050.png]]
 ![[BD2_Clase8_ScriptNivelacion.sql]]
 ```sql
@@ -131,5 +134,160 @@ END CATCH
 GO
 ```
 
-# Comienzo de la clase
 
+## Nivelación de Stored Procedures
+
+sdn_sp_listar_empresa_v02.sql
+```sql
+/********************************************************************
+Nombre      : sdn_sp_listar_empresa
+Autor       : [Tu Nombre]
+Fecha       : 2025-09-09
+Descripción : Lista las empresas filtradas por código de entidad
+Parámetros  : @par_codigo_entidad, @debug, @status
+Retorno     : 0 = Éxito, -1 = Error
+*********************************************************************/
+CREATE OR ALTER PROCEDURE sdn_sp_listar_empresa_v02
+    @par_codigo_entidad INT = NULL,
+    @debug CHAR(1) = 'N',
+    @status INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @var_cod_entidad_rowcount INT,
+            @error_message NVARCHAR(4000)
+
+    -- Inicializar estado
+    SET @status = 0
+
+    IF @debug = 'S'
+        PRINT 'Iniciando sdn_sp_listar_empresa...'
+
+    BEGIN TRY
+        /* Validación: existe el código entidad */
+        SELECT @var_cod_entidad_rowcount = COUNT(*)
+        FROM dbo.t_tipo_entidad
+        WHERE codigo_entidad = @par_codigo_entidad
+
+        IF @var_cod_entidad_rowcount <> 1 
+        BEGIN
+            IF @debug = 'S'
+                PRINT 'No existe el código entidad proporcionado.'
+
+            SET @status = -1
+            RAISERROR('No existe código Entidad. Revisar código antes de ejecutar.', 14, 1)
+            RETURN @status
+        END
+        ELSE
+        BEGIN
+            IF @debug = 'S'
+                PRINT 'Código entidad válido. Ejecutando query final...'
+        END
+
+        /* Ejecución de consulta principal */
+        SELECT 
+            emp.razon_social, 
+            emp.cuit
+        FROM dbo.t_empresa emp
+        INNER JOIN dbo.t_tipo_entidad te 
+            ON emp.id_tipo_entidad = te.id_tipo_entidad
+        WHERE te.codigo_entidad = @par_codigo_entidad
+        ORDER BY emp.razon_social
+
+        -- Éxito
+        SET @status = 0
+    END TRY
+    BEGIN CATCH
+        SET @status = ERROR_NUMBER()
+        SET @error_message = ERROR_MESSAGE()
+
+        IF @debug = 'S'
+            PRINT 'Error capturado en TRY...CATCH'
+
+        RAISERROR(@error_message, 16, 1)
+    END CATCH
+END
+```
+
+sp_listar_emp_x_tipo.sql
+```sql
+create procedure sp_listar_emp_x_tipo
+@par_codigo_entidad int null,
+@debug varchar(1)
+as
+/*declaracion de variables*/
+Declare @status int
+Declare @tipo_entidad_return varchar(3)
+select @status = 0
+
+/* controlar el codigo de parametro codigo entidad */
+declare @var_cod_entidad_rowcount int
+
+select @var_cod_entidad_rowcount = count(*)
+from dbo.t_tipo_entidad
+Where codigo_entidad = @par_codigo_entidad
+
+If @var_cod_entidad_rowcount <> 1 
+Begin
+	if @debug = 'S' 
+	   print 'no existe codigo entidad'
+
+	Select @tipo_entidad_return = 'ALL'
+End
+else
+   if @debug = 'S' 
+      print 'existe codigo entidad'
+
+/*ejecucion de query final*/
+
+If @tipo_entidad_return = 'ALL'
+
+        SELECT 
+            emp.razon_social,
+            emp.cuit,
+            te.codigo_entidad
+        FROM dbo.t_empresa emp
+        INNER JOIN dbo.t_tipo_entidad te
+            ON emp.id_tipo_entidad = te.id_tipo_entidad
+        ORDER BY emp.razon_social;
+Else
+        SELECT 
+            emp.razon_social,
+            emp.cuit,
+            te.codigo_entidad
+        FROM dbo.t_empresa emp
+        INNER JOIN dbo.t_tipo_entidad te
+            ON emp.id_tipo_entidad = te.id_tipo_entidad
+        WHERE te.codigo_entidad = @par_codigo_entidad
+        ORDER BY emp.razon_social;
+
+Return @status 
+
+```
+
+#### Llamadas de SPs:
+
+```sql
+DECLARE @RC int
+DECLARE @par_codigo_entidad int
+DECLARE @debug varchar(1)
+-- TODO: Set parameter values here.
+select @par_codigo_entidad = 5000, @debug = 'S'
+EXECUTE @RC = [dbo].[sp_listar_emp_x_tipo] 
+   @par_codigo_entidad
+  ,@debug
+```
+
+```sql
+DECLARE @RC int
+DECLARE @par_codigo_entidad int
+DECLARE @debug char(1)
+DECLARE @status int
+select @par_codigo_entidad = 21, @debug = 'S',  @status = 0
+-- TODO: Set parameter values here.
+EXECUTE @RC = [dbo].[sdn_sp_listar_empresa_v02] 
+   @par_codigo_entidad
+  ,@debug
+  ,@status OUTPUT
+```

@@ -8,21 +8,21 @@
         "type": "tabs",
         "children": [
           {
-            "id": "b96a6860356bfd2e",
+            "id": "61205c5e6492ea5b",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Clase 7.md",
+                "file": "Clase 9.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Clase 7"
+              "title": "Clase 9"
             }
           },
           {
-            "id": "0f2e55edfd578690",
+            "id": "f7253a2a074d9343",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -93,7 +93,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "7afb227c2ab1a524",
@@ -196,14 +197,15 @@
       "mermaid-tools:Open Mermaid Toolbar": false
     }
   },
-  "active": "0f2e55edfd578690",
+  "active": "f7253a2a074d9343",
   "lastOpenFiles": [
+    "Clase 9.md",
+    "BD 2 - Clase 8 - Script de Nivelación.md",
+    "Clase 7.md",
     "Pasted image 20250914185050.png",
     "Pasted image 20250909194526.png",
-    "BD 2 - Clase 8 - Script de Nivelación.md",
     "BD2_Clase8_ScriptNivelacion.sql",
     "BD2_Clase9_ScriptNivelacion.sql",
-    "Clase 7.md",
     "Pasted image 20250909204422.png",
     "Pasted image 20250909202957.png",
     "Pasted image 20250909202951.png",
@@ -212,7 +214,6 @@
     "Pasted image 20250909202801.png",
     "Pasted image 20250909202648.png",
     "Pasted image 20250909201626.png",
-    "Pasted image 20250909201205.png",
     "ejercicios2050909.pdf",
     "Clase 6.md",
     "Clase 3.md",
