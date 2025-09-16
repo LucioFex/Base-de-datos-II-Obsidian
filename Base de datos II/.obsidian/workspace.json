@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Clase 9.md",
+                "file": "Clase 7.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Clase 9"
+              "title": "Clase 7"
             }
           },
           {
@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "BD 2 - Clase 8 - Script de Nivelación.md",
+                "file": "Clase 9.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "BD 2 - Clase 8 - Script de Nivelación"
+              "title": "Clase 9"
             }
           }
         ],
@@ -199,9 +199,11 @@
   },
   "active": "f7253a2a074d9343",
   "lastOpenFiles": [
-    "Clase 9.md",
-    "BD 2 - Clase 8 - Script de Nivelación.md",
     "Clase 7.md",
+    "Clase 9.md",
+    "Pasted image 20250916192957.png",
+    "Pasted image 20250916192956.png",
+    "BD 2 - Clase 8 - Script de Nivelación.md",
     "Pasted image 20250914185050.png",
     "Pasted image 20250909194526.png",
     "BD2_Clase8_ScriptNivelacion.sql",
@@ -212,8 +214,6 @@
     "Pasted image 20250909202857.png",
     "Pasted image 20250909202856.png",
     "Pasted image 20250909202801.png",
-    "Pasted image 20250909202648.png",
-    "Pasted image 20250909201626.png",
     "ejercicios2050909.pdf",
     "Clase 6.md",
     "Clase 3.md",
