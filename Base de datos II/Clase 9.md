@@ -5,10 +5,7 @@
 ---
 
 ```sql
-
-
 Drop PROCEDURE dbo.sp_insert_empresa
-
 
 CREATE PROCEDURE dbo.sp_insert_empresa
     @par_razon_social         VARCHAR(250),
@@ -86,7 +83,7 @@ DECLARE @par_id_provincia int
 DECLARE @debug char(1)
 
 -- TODO: Set parameter values here.
-Select @par_razon_social = 'La Nueva Empresa'
+Select @par_razon_social = 'La'
 Select @par_cuit = 30552733211
 Select @par_fecha_cierre = ''
 Select @par_fecha_inscripcion = getdate()
@@ -102,4 +99,8 @@ EXECUTE @RC = [dbo].[sp_insert_empresa]
   ,@par_id_tipo_entidad
   ,@par_id_provincia
   ,@debug 
+
+-- recupero @status
+select @RC
+
 ```
