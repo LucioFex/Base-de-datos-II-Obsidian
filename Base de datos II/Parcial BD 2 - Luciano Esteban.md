@@ -80,7 +80,8 @@ SELECT TOP (1000) [persona]
   FROM [practica_clase].[dbo].[parcial_personas]
 ```
 
-
+![[script_esteban.sql]]
 ![[Pasted image 20250930192810.png]]
 
 
+![[script_esteban 1.sql]]
