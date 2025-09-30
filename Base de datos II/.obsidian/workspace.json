@@ -41,16 +41,30 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Clase 9-2.md",
+                "file": "Clase 2.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Clase 9-2"
+              "title": "Clase 2"
+            }
+          },
+          {
+            "id": "0b297bee998446cf",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Parcial BD 2 - Luciano Esteban.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Parcial BD 2 - Luciano Esteban"
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -210,13 +224,16 @@
       "mermaid-tools:Open Mermaid Toolbar": false
     }
   },
-  "active": "b5b55b5cf4cd24e9",
+  "active": "0b297bee998446cf",
   "lastOpenFiles": [
+    "Pasted image 20250930192810.png",
+    "Clase 2.md",
+    "Parcial BD 2 - Luciano Esteban.md",
+    "Pasted image 20250930184125.png",
+    "Clase 9-2.md",
     "Pasted image 20250923211157.png",
     "Pasted image 20250923204116.png",
     "20250923.sql",
-    "Clase 2.md",
-    "Clase 9-2.md",
     "Clase 9.md",
     "Clase 7.md",
     "Pasted image 20250916192957.png",
@@ -229,8 +246,6 @@
     "Pasted image 20250909204422.png",
     "Pasted image 20250909202957.png",
     "Pasted image 20250909202951.png",
-    "Pasted image 20250909202857.png",
-    "Pasted image 20250909202856.png",
     "ejercicios2050909.pdf",
     "Clase 6.md",
     "Clase 3.md",
