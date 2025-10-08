@@ -11,8 +11,6 @@ Nombres tablas
 Nombre índices
 Ver PKs
 
-
-
 Armar consultas sobre tablas de BDs y de las tablas normalizadas
 
 
