@@ -20,8 +20,23 @@
               "icon": "lucide-file",
               "title": "Clase 11"
             }
+          },
+          {
+            "id": "c3af699c985fb377",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Clase 12.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Clase 12"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -181,8 +196,11 @@
       "mermaid-tools:Open Mermaid Toolbar": false
     }
   },
-  "active": "d26782c8f8bc3fbf",
+  "active": "c3af699c985fb377",
   "lastOpenFiles": [
+    "Pasted image 20251014184705.png",
+    "Clase 11.md",
+    "Clase 12.md",
     "Pasted image 20251007215249.png",
     "Pasted image 20251007214517.png",
     "Pasted image 20251007211505.png",
@@ -193,8 +211,6 @@
     "Pasted image 20251007210714.png",
     "Pasted image 20251007210706.png",
     "Pasted image 20251007210600.png",
-    "Pasted image 20251007210554.png",
-    "Clase 11.md",
     "Clase 7.md",
     "Clase 9.md",
     "Clase 2.md",
