@@ -4,6 +4,7 @@
 
 ![[Pasted image 20251014184705.png]]
 
+
 ---
 # Ejercicios
 
