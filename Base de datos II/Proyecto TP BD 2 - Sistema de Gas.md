@@ -5,6 +5,8 @@ El sistema gestiona y audita las inspecciones de cañerías de gas realizadas po
 Cada acción relevante, como cambios de estado, reasignaciones de técnicos o modificaciones en los datos del tramo, queda registrada mediante mecanismos automáticos de auditoría.
 Además, el sistema utiliza PostGIS para almacenar y analizar información geoespacial, permitiendo representar con precisión los tramos inspeccionados y las rutas recorridas por los técnicos. Toda la información se visualiza en Grafana para facilitar el análisis del desempeño, el cumplimiento de procedimientos y la consistencia operativa a lo largo del tiempo
 
+# Hosteo en AWS con Neon.Tech
+
 ![[Pasted image 20251021200946.png | 500]]
 
 ![[Pasted image 20251021230403.png | 500]]
