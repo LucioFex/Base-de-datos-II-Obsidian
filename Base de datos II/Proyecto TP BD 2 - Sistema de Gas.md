@@ -1,4 +1,4 @@
-#proyecto | Luciano Esteban | Bases de datos 2
+#proyecto | Luciano Esteban | Bases de datos 2 | Ininf 2025
 
 ![[Pasted image 20251021200946.png | 500]]
 
