@@ -2556,6 +2556,7 @@ COMMIT;
 
 # Dashboards Grafana
 ![[Pasted image 20251021230032.png]]
+
 ![[Pasted image 20251021230151.png]]
 
 
