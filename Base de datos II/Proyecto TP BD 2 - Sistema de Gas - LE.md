@@ -1,5 +1,8 @@
 #proyecto | Luciano Esteban | Bases de datos 2 | Ininf 2025
 
+**Contenido**
+```table-of-contents
+```
 # Temática
 El sistema gestiona y audita las inspecciones de cañerías de gas realizadas por técnicos de campo. Su objetivo principal es garantizar la trazabilidad completa de cada recorrido, registrando todos los movimientos, intervenciones y actualizaciones que ocurren desde la asignación de una inspección hasta su cierre.
 Cada acción relevante, como cambios de estado, reasignaciones de técnicos o modificaciones en los datos del tramo, queda registrada mediante mecanismos automáticos de auditoría.
