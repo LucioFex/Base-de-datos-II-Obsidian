@@ -29,20 +29,20 @@ Password: npg_yuS1G4YJnsrb
 
 
 # Diagrama
-## DER - **Pendiente: Actualizar**
-![[Pasted image 20251021200653.png]]
+## DER
+![[Pasted image 20251021215830.png]]
 
 ## DBDiagram.io
 ```sql
 Project sistema_gas {
   database_type: "PostgreSQL"
-  note: 'Equivalente de Postgres 15 → dbdiagram. Extensiones (postgis, uuid-ossp, btree_gist) no se representan; geometrias y ranges quedan como tipos personalizados con notas.'
+  note: 'Versión actualizada con prefijos sdg_ y buenas prácticas de nomenclatura (Postgres 15 → DBML).'
 }
 
 //// =========================
 //// SEGURIDAD
 //// =========================
-Table seguridad_usuario {
+Table sdg_usuario {
   id uuid [pk, default: `uuid_generate_v4()`]
   username citext [not null, unique]
   nombre text [not null]
@@ -51,179 +51,177 @@ Table seguridad_usuario {
   creado_en timestamptz [not null, default: `now()`]
 }
 
-Table seguridad_rol {
+Table sdg_rol {
   id uuid [pk, default: `uuid_generate_v4()`]
-  nombre text [not null, unique, note: 'admin, planificador, tecnico, auditor']
+  nombre text [not null, unique]
   descripcion text
 }
 
-Table seguridad_usuario_rol {
-  usuario_id uuid [not null]
-  rol_id uuid [not null]
+Table sdg_usuario_rol {
+  usuario_id uuid [not null, ref: > sdg_usuario.id]
+  rol_id uuid [not null, ref: > sdg_rol.id]
   asignado_en timestamptz [not null, default: `now()`]
-
   Indexes {
-    (usuario_id, rol_id) [pk] // PK compuesta
+    (usuario_id, rol_id) [pk]
   }
 }
 
 //// =========================
 //// CATÁLOGO
 //// =========================
-Table catalogo_material_tuberia {
+Table sdg_material_tuberia {
   id smallint [pk]
-  nombre text [not null, unique, note: 'acero, PEAD, fundición, etc.']
+  nombre text [not null, unique]
 }
 
-Table catalogo_tipo_tramo {
+Table sdg_tipo_tramo {
   id smallint [pk]
-  nombre text [not null, unique, note: 'distribución, transporte, ramal, etc.']
+  nombre text [not null, unique]
 }
 
-Table catalogo_estado_inspeccion {
+Table sdg_estado_inspeccion {
   id smallint [pk]
-  nombre text [not null, unique, note: 'planificada, asignada, en_proceso, pausada, cerrada, anulada']
+  nombre text [not null, unique]
   es_final boolean [not null, default: false]
 }
 
-Table catalogo_tipo_hallazgo {
+Table sdg_tipo_hallazgo {
   id smallint [pk]
-  nombre text [not null, unique, note: 'fuga, corrosión, válvula inoperable, daño mecánico, etc.']
+  nombre text [not null, unique]
 }
 
-Table catalogo_severidad {
+Table sdg_severidad {
   id smallint [pk]
-  nombre text [not null, unique, note: 'baja, media, alta, crítica']
+  nombre text [not null, unique]
   orden_visual smallint [not null]
 }
 
-Table catalogo_tipo_intervencion {
+Table sdg_tipo_intervencion {
   id smallint [pk]
-  nombre text [not null, unique, note: 'reparación, reemplazo, sellado, cierre preventivo, etc.']
+  nombre text [not null, unique]
 }
 
-Table catalogo_motivo_reasignacion {
+Table sdg_motivo_reasignacion {
   id smallint [pk]
-  nombre text [not null, unique, note: 'disponibilidad, conflicto, mayor prioridad, etc.']
+  nombre text [not null, unique]
 }
 
 //// =========================
 //// GEO
 //// =========================
-Table geo_tramo {
+Table sdg_tramo {
   id uuid [pk, default: `uuid_generate_v4()`]
   codigo text [not null, unique]
-  tipo_id smallint [not null, ref: > catalogo_tipo_tramo.id]
-  material_id smallint [not null, ref: > catalogo_material_tuberia.id]
-  diametro_mm int [note: 'CHECK > 0 (no representado)']
-  presion_oper_kpa numeric(10,2) [note: 'CHECK >= 0 (no representado)']
+  tipo_id smallint [not null, ref: > sdg_tipo_tramo.id]
+  material_id smallint [not null, ref: > sdg_material_tuberia.id]
+  diametro_mm int
+  presion_oper_kpa numeric(10,2)
   instalado_en date
-  geom geometry_linestring_4326 [not null, note: 'PostGIS: LINESTRING SRID 4326']
+  geom geometry_linestring_4326 [not null]
   activo boolean [not null, default: true]
-  creado_por uuid [ref: > seguridad_usuario.id]
+  creado_por uuid [ref: > sdg_usuario.id]
   creado_en timestamptz [not null, default: `now()`]
 }
 
-Table geo_punto_control {
+Table sdg_punto_control {
   id uuid [pk, default: `uuid_generate_v4()`]
   codigo text [not null, unique]
   descripcion text
-  geom geometry_point_4326 [not null, note: 'PostGIS: POINT SRID 4326']
+  geom geometry_point_4326 [not null]
   creado_en timestamptz [not null, default: `now()`]
 }
 
 //// =========================
 //// OPERACIÓN
 //// =========================
-Table operacion_tecnico {
+Table sdg_tecnico {
   id uuid [pk, default: `uuid_generate_v4()`]
-  usuario_id uuid [not null, unique, ref: > seguridad_usuario.id]
+  usuario_id uuid [not null, unique, ref: > sdg_usuario.id]
   legajo text [not null, unique]
   habilitado boolean [not null, default: true]
   creado_en timestamptz [not null, default: `now()`]
 }
 
-Table operacion_inspeccion {
+Table sdg_inspeccion {
   id uuid [pk, default: `uuid_generate_v4()`]
   codigo text [not null, unique]
   descripcion text
-  estado_id smallint [not null, ref: > catalogo_estado_inspeccion.id]
+  estado_id smallint [not null, ref: > sdg_estado_inspeccion.id]
   planificada_desde timestamptz [not null]
-  planificada_hasta timestamptz [not null, note: 'CHECK desde < hasta (no representado)']
-  prioridad smallint [not null, default: 3, note: 'CHECK BETWEEN 1 AND 5 (no representado)']
-  creado_por uuid [ref: > seguridad_usuario.id]
+  planificada_hasta timestamptz [not null]
+  prioridad smallint [not null, default: 3]
+  creado_por uuid [ref: > sdg_usuario.id]
   creado_en timestamptz [not null, default: `now()`]
 }
 
-Table operacion_inspeccion_tramo {
+Table sdg_inspeccion_tramo {
   id uuid [pk, default: `uuid_generate_v4()`]
-  inspeccion_id uuid [not null, ref: > operacion_inspeccion.id]
-  tramo_id uuid [not null, ref: > geo_tramo.id]
+  inspeccion_id uuid [not null, ref: > sdg_inspeccion.id]
+  tramo_id uuid [not null, ref: > sdg_tramo.id]
   orden int [not null, default: 1]
-
   Indexes {
     (inspeccion_id, tramo_id) [unique]
     (inspeccion_id, orden) [unique]
   }
 }
 
-Table operacion_asignacion {
+Table sdg_asignacion {
   id uuid [pk, default: `uuid_generate_v4()`]
-  inspeccion_id uuid [not null, ref: > operacion_inspeccion.id]
-  tecnico_id uuid [not null, ref: > operacion_tecnico.id]
-  periodo tstzrange [not null, note: 'Range; EXCLUDE GIST no representado; CHECK lower()<upper()']
-  asignado_por uuid [ref: > seguridad_usuario.id]
-  motivo_id smallint [ref: > catalogo_motivo_reasignacion.id]
+  inspeccion_id uuid [not null, ref: > sdg_inspeccion.id]
+  tecnico_id uuid [not null, ref: > sdg_tecnico.id]
+  periodo tstzrange [not null]
+  asignado_por uuid [ref: > sdg_usuario.id]
+  motivo_id smallint [ref: > sdg_motivo_reasignacion.id]
   creado_en timestamptz [not null, default: `now()`]
 }
 
-Table operacion_tracking_posicion {
+Table sdg_tracking_posicion {
   id bigserial [pk]
-  inspeccion_id uuid [not null, ref: > operacion_inspeccion.id]
-  tecnico_id uuid [not null, ref: > operacion_tecnico.id]
+  inspeccion_id uuid [not null, ref: > sdg_inspeccion.id]
+  tecnico_id uuid [not null, ref: > sdg_tecnico.id]
   tomado_en timestamptz [not null]
-  punto geometry_point_4326 [not null, note: 'PostGIS: POINT SRID 4326']
-  precision_m numeric(6,2) [note: 'CHECK >= 0 (no representado)']
+  punto geometry_point_4326 [not null]
+  precision_m numeric(6,2)
   fuente text
   Indexes {
     (inspeccion_id, tecnico_id, tomado_en) [unique]
   }
 }
 
-Table operacion_trayecto {
-  inspeccion_id uuid [pk, ref: > operacion_inspeccion.id]
-  linea geometry_linestring_4326 [not null, note: 'PostGIS: LINESTRING SRID 4326']
+Table sdg_trayecto {
+  inspeccion_id uuid [pk, ref: > sdg_inspeccion.id]
+  linea geometry_linestring_4326 [not null]
   calculado_en timestamptz [not null, default: `now()`]
 }
 
-Table operacion_hallazgo {
+Table sdg_hallazgo {
   id uuid [pk, default: `uuid_generate_v4()`]
-  inspeccion_tramo_id uuid [not null, ref: > operacion_inspeccion_tramo.id]
-  tipo_id smallint [not null, ref: > catalogo_tipo_hallazgo.id]
-  severidad_id smallint [not null, ref: > catalogo_severidad.id]
+  inspeccion_tramo_id uuid [not null, ref: > sdg_inspeccion_tramo.id]
+  tipo_id smallint [not null, ref: > sdg_tipo_hallazgo.id]
+  severidad_id smallint [not null, ref: > sdg_severidad.id]
   descripcion text
-  ubicacion geometry_point_4326 [note: 'PostGIS: punto opcional']
+  ubicacion geometry_point_4326
   detectado_en timestamptz [not null, default: `now()`]
-  detectado_por uuid [ref: > operacion_tecnico.id]
+  detectado_por uuid [ref: > sdg_tecnico.id]
 }
 
-Table operacion_intervencion {
+Table sdg_intervencion {
   id uuid [pk, default: `uuid_generate_v4()`]
-  hallazgo_id uuid [not null, ref: > operacion_hallazgo.id]
-  tipo_id smallint [not null, ref: > catalogo_tipo_intervencion.id]
+  hallazgo_id uuid [not null, ref: > sdg_hallazgo.id]
+  tipo_id smallint [not null, ref: > sdg_tipo_intervencion.id]
   descripcion text
-  realizado_por uuid [ref: > operacion_tecnico.id]
+  realizado_por uuid [ref: > sdg_tecnico.id]
   realizado_en timestamptz [not null, default: `now()`]
 }
 
-Table operacion_adjunto {
+Table sdg_adjunto {
   id uuid [pk, default: `uuid_generate_v4()`]
-  entidad text [not null, note: "ENUM lógico: 'inspeccion','hallazgo','intervencion','tramo'"]
-  entidad_id uuid [not null, note: 'FK polimórfica no representada']
+  entidad text [not null]
+  entidad_id uuid [not null]
   nombre_archivo text [not null]
   mime_type text [not null]
   url text [not null]
-  subido_por uuid [ref: > seguridad_usuario.id]
+  subido_por uuid [ref: > sdg_usuario.id]
   subido_en timestamptz [not null, default: `now()`]
 }
 
@@ -239,65 +237,75 @@ Enum auditoria_accion_auditoria {
   REALLOCATION
 }
 
-
-Table auditoria_evento {
+Table sdg_evento {
   id bigserial [pk]
   ocurrido_en timestamptz [not null, default: `now()`]
-  actor_usuario uuid [ref: > seguridad_usuario.id]
-  actor_tecnico uuid [ref: > operacion_tecnico.id]
-  entidad text [not null, note: 'lógico: inspeccion, tramo, hallazgo, etc.']
+  actor_usuario uuid [ref: > sdg_usuario.id]
+  actor_tecnico uuid [ref: > sdg_tecnico.id]
+  entidad text [not null]
   entidad_id uuid
   accion auditoria_accion_auditoria [not null]
   detalle jsonb
   origen_ip inet
   origen_app text
   Indexes {
-    (entidad, entidad_id, ocurrido_en) // DESC no representado
+    (entidad, entidad_id, ocurrido_en)
   }
 }
 
-Table auditoria_inspeccion_estado_historial {
+Table sdg_inspeccion_estado_historial {
   id bigserial [pk]
-  inspeccion_id uuid [not null, ref: > operacion_inspeccion.id]
-  estado_id smallint [not null, ref: > catalogo_estado_inspeccion.id]
-  cambiado_por uuid [ref: > seguridad_usuario.id]
+  inspeccion_id uuid [not null, ref: > sdg_inspeccion.id]
+  estado_id smallint [not null, ref: > sdg_estado_inspeccion.id]
+  cambiado_por uuid [ref: > sdg_usuario.id]
   cambiado_en timestamptz [not null, default: `now()`]
-  Indexes {
-    (inspeccion_id, cambiado_en)
-  }
 }
 
-Table auditoria_reasignacion_historial {
+Table sdg_reasignacion_historial {
   id bigserial [pk]
-  inspeccion_id uuid [not null, ref: > operacion_inspeccion.id]
-  desde_tecnico uuid [ref: > operacion_tecnico.id]
-  hacia_tecnico uuid [ref: > operacion_tecnico.id]
-  motivo_id smallint [ref: > catalogo_motivo_reasignacion.id]
-  reasignado_por uuid [ref: > seguridad_usuario.id]
+  inspeccion_id uuid [not null, ref: > sdg_inspeccion.id]
+  desde_tecnico uuid [ref: > sdg_tecnico.id]
+  hacia_tecnico uuid [ref: > sdg_tecnico.id]
+  motivo_id smallint [ref: > sdg_motivo_reasignacion.id]
+  reasignado_por uuid [ref: > sdg_usuario.id]
   reasignado_en timestamptz [not null, default: `now()`]
-  Indexes {
-    (inspeccion_id, reasignado_en)
-  }
 }
 
-Table auditoria_tramo_version {
+Table sdg_tramo_version {
   id bigserial [pk]
-  tramo_id uuid [not null, ref: > geo_tramo.id]
-  vigente tsrange [not null, note: 'Range [desde,hasta); EXCLUDE GIST no representado; CHECK lower()<upper()']
-  material_id smallint [not null, ref: > catalogo_material_tuberia.id]
+  tramo_id uuid [not null, ref: > sdg_tramo.id]
+  vigente tsrange [not null]
+  material_id smallint [not null, ref: > sdg_material_tuberia.id]
   diametro_mm int [not null]
   presion_oper_kpa numeric(10,2) [not null]
   activo boolean [not null]
-  versionado_por uuid [ref: > seguridad_usuario.id]
+  versionado_por uuid [ref: > sdg_usuario.id]
   versionado_en timestamptz [not null, default: `now()`]
 }
 
 //// =========================
-//// REFERENCIAS ADICIONALES
+//// VISTAS (solo para documentación visual)
 //// =========================
-// seguridad_usuario_rol
-Ref: seguridad_usuario_rol.usuario_id > seguridad_usuario.id
-Ref: seguridad_usuario_rol.rol_id > seguridad_rol.id
+Table sdg_vw_inspeccion_estado_actual {
+  id uuid
+  codigo text
+  descripcion text
+  estado_id smallint
+  estado_nombre text
+  planificada_desde timestamptz
+  planificada_hasta timestamptz
+  prioridad smallint
+  creado_en timestamptz
+  Note: 'Vista base para monitoreo (Grafana).'
+}
+
+Table sdg_vw_inspeccion_ultimo_estado {
+  inspeccion_id uuid
+  estado_id smallint
+  cambiado_en timestamptz
+  cambiado_por uuid
+  Note: 'Vista simplificada de último estado por inspección.'
+}
 ```
 
 # SQL - Postgres 15
@@ -2171,3 +2179,384 @@ ORDER BY total DESC;
 (4 rows)
 ```
 
+---
+
+# Datos masivos
+```sql
+BEGIN;
+
+-- Contexto de sesión para auditoría
+SET LOCAL application_name = 'sdg_bulk_loader_v2';
+-- Actores (ajustá si querés)
+SELECT set_config('app.current_user_id',
+  (SELECT u.id::text FROM seguridad.sdg_usuario u WHERE u.username='marias'), true);
+SELECT set_config('app.current_tecnico_id',
+  (SELECT t.id::text FROM operacion.sdg_tecnico t
+   JOIN seguridad.sdg_usuario u ON u.id=t.usuario_id
+   WHERE u.username='lrodriguez'), true);
+
+-- =========================================================
+-- 0) Técnicos extra (por si no estaban)
+-- =========================================================
+INSERT INTO operacion.sdg_tecnico (usuario_id, legajo, habilitado)
+SELECT u.id, 'TEC-003', TRUE
+FROM seguridad.sdg_usuario u WHERE u.username='jrojas'
+ON CONFLICT DO NOTHING;
+
+INSERT INTO operacion.sdg_tecnico (usuario_id, legajo, habilitado)
+SELECT u.id, 'TEC-004', TRUE
+FROM seguridad.sdg_usuario u WHERE u.username='cmendez'
+ON CONFLICT DO NOTHING;
+
+-- =========================================================
+-- 1) Más tramos y puntos de control (idempotente)
+--    TR-101..TR-160 / PC-101..PC-160
+-- =========================================================
+INSERT INTO geo.sdg_tramo (codigo, tipo_id, material_id, diametro_mm, presion_oper_kpa, instalado_en, geom, creado_por)
+SELECT
+  format('TR-%03s', g),
+  1 + (g % 3),
+  1 + (g % 4),
+  63 + (g % 5) * 50,
+  150 + (g % 6) * 50,
+  DATE '2012-01-01' + (g % 300),
+  ST_SetSRID(ST_MakeLine(
+    ST_MakePoint(-58.05 + g*0.0015, -34.98 + (g % 7)*0.001),
+    ST_MakePoint(-58.045 + g*0.0015, -34.975 + (g % 7)*0.001)
+  ), 4326),
+  (SELECT id FROM seguridad.sdg_usuario WHERE username='marias')
+FROM generate_series(101,160) g
+ON CONFLICT (codigo) DO NOTHING;
+
+INSERT INTO geo.sdg_punto_control (codigo, descripcion, geom)
+SELECT
+  format('PC-%03s', g),
+  format('Punto control %s', g),
+  ST_SetSRID(ST_MakePoint(-58.10 + g*0.001, -34.99 + (g % 9)*0.001), 4326)
+FROM generate_series(101,160) g
+ON CONFLICT (codigo) DO NOTHING;
+
+-- Inicializar versión de tramo (solo para los nuevos)
+INSERT INTO auditoria.sdg_tramo_version (tramo_id, vigente, material_id, diametro_mm, presion_oper_kpa, activo, versionado_por)
+SELECT t.id, tsrange(t.instalado_en::timestamp, NULL), t.material_id, t.diametro_mm, t.presion_oper_kpa, t.activo,
+       (SELECT id FROM seguridad.sdg_usuario WHERE username='marias')
+FROM geo.sdg_tramo t
+WHERE t.codigo BETWEEN 'TR-101' AND 'TR-160'
+  AND NOT EXISTS (SELECT 1 FROM auditoria.sdg_tramo_version tv WHERE tv.tramo_id = t.id);
+
+-- =========================================================
+-- 2) Inspecciones masivas (INSP-2025-301..420)
+--    Distribuidas cada 8 horas entre 2025-08-15 y 2025-10-15
+-- =========================================================
+INSERT INTO operacion.sdg_inspeccion
+  (codigo, descripcion, estado_id, planificada_desde, planificada_hasta, prioridad, creado_por)
+SELECT
+  format('INSP-2025-%03s', g),
+  format('Inspección masiva %s', g),
+  1,  -- Planificada (luego registramos estados)
+  TIMESTAMP '2025-08-15 08:00:00-03' + (g-301) * INTERVAL '8 hours',
+  TIMESTAMP '2025-08-15 12:00:00-03' + (g-301) * INTERVAL '8 hours',
+  1 + (g % 5),
+  (SELECT id FROM seguridad.sdg_usuario WHERE username='marias')
+FROM generate_series(301,420) g
+ON CONFLICT (codigo) DO NOTHING;
+
+-- Estado inicial "Planificada"
+INSERT INTO auditoria.sdg_inspeccion_estado_historial (inspeccion_id, estado_id, cambiado_por, cambiado_en)
+SELECT i.id, 1, (SELECT id FROM seguridad.sdg_usuario WHERE username='marias'),
+       i.planificada_desde - INTERVAL '1 day'
+FROM operacion.sdg_inspeccion i
+WHERE i.codigo BETWEEN 'INSP-2025-301' AND 'INSP-2025-420'
+  AND NOT EXISTS (SELECT 1 FROM auditoria.sdg_inspeccion_estado_historial h WHERE h.inspeccion_id=i.id AND h.estado_id=1);
+
+-- Vincular cada inspección a 3 tramos rotando sobre TR-101..TR-160
+WITH ins AS (
+  SELECT i.id, i.codigo, ROW_NUMBER() OVER (ORDER BY i.codigo) AS rn
+  FROM operacion.sdg_inspeccion i
+  WHERE i.codigo BETWEEN 'INSP-2025-301' AND 'INSP-2025-420'
+),
+pool AS (
+  SELECT t.id, t.codigo, ROW_NUMBER() OVER (ORDER BY t.codigo) AS trn
+  FROM geo.sdg_tramo t
+  WHERE t.codigo BETWEEN 'TR-101' AND 'TR-160'
+)
+INSERT INTO operacion.sdg_inspeccion_tramo (inspeccion_id, tramo_id, orden)
+SELECT ins.id, p1.id, 1 FROM ins
+JOIN LATERAL (SELECT id FROM pool WHERE trn = ((ins.rn-1) % 60) + 1) p1 ON TRUE
+ON CONFLICT DO NOTHING;
+
+WITH ins AS (
+  SELECT i.id, i.codigo, ROW_NUMBER() OVER (ORDER BY i.codigo) AS rn
+  FROM operacion.sdg_inspeccion i
+  WHERE i.codigo BETWEEN 'INSP-2025-301' AND 'INSP-2025-420'
+),
+pool AS (
+  SELECT t.id, t.codigo, ROW_NUMBER() OVER (ORDER BY t.codigo) AS trn
+  FROM geo.sdg_tramo t
+  WHERE t.codigo BETWEEN 'TR-101' AND 'TR-160'
+)
+INSERT INTO operacion.sdg_inspeccion_tramo (inspeccion_id, tramo_id, orden)
+SELECT ins.id, p2.id, 2 FROM ins
+JOIN LATERAL (SELECT id FROM pool WHERE trn = ((ins.rn  ) % 60) + 1) p2 ON TRUE
+ON CONFLICT DO NOTHING;
+
+WITH ins AS (
+  SELECT i.id, i.codigo, ROW_NUMBER() OVER (ORDER BY i.codigo) AS rn
+  FROM operacion.sdg_inspeccion i
+  WHERE i.codigo BETWEEN 'INSP-2025-301' AND 'INSP-2025-420'
+),
+pool AS (
+  SELECT t.id, t.codigo, ROW_NUMBER() OVER (ORDER BY t.codigo) AS trn
+  FROM geo.sdg_tramo t
+  WHERE t.codigo BETWEEN 'TR-101' AND 'TR-160'
+)
+INSERT INTO operacion.sdg_inspeccion_tramo (inspeccion_id, tramo_id, orden)
+SELECT ins.id, p3.id, 3 FROM ins
+JOIN LATERAL (SELECT id FROM pool WHERE trn = ((ins.rn+1) % 60) + 1) p3 ON TRUE
+ON CONFLICT DO NOTHING;
+
+-- =========================================================
+-- 3) Asignaciones (rotando técnicos disponibles, 1 por inspección)
+-- =========================================================
+WITH ins AS (
+  SELECT i.id, i.codigo, i.planificada_desde, i.planificada_hasta,
+         ROW_NUMBER() OVER (ORDER BY i.codigo) AS rn
+  FROM operacion.sdg_inspeccion i
+  WHERE i.codigo BETWEEN 'INSP-2025-301' AND 'INSP-2025-420'
+),
+tecs AS (
+  SELECT t.id, t.legajo, ROW_NUMBER() OVER (ORDER BY t.legajo) AS trn
+  FROM operacion.sdg_tecnico t
+),
+cnt AS (SELECT COUNT(*)::int AS n FROM tecs)
+INSERT INTO operacion.sdg_asignacion (inspeccion_id, tecnico_id, periodo, asignado_por, motivo_id)
+SELECT
+  ins.id,
+  tec.id,
+  tstzrange(ins.planificada_desde - INTERVAL '20 min', ins.planificada_hasta + INTERVAL '40 min', '[)'),
+  (SELECT id FROM seguridad.sdg_usuario WHERE username='marias'),
+  1 + ((ins.rn - 1) % 4)
+FROM ins
+CROSS JOIN cnt
+JOIN tecs tec ON tec.trn = ((ins.rn - 1) % cnt.n) + 1
+WHERE NOT EXISTS (SELECT 1 FROM operacion.sdg_asignacion a WHERE a.inspeccion_id = ins.id);
+
+-- =========================================================
+-- 4) Tracking (18 puntos por inspección, cada 10 min)
+-- =========================================================
+INSERT INTO operacion.sdg_tracking_posicion (inspeccion_id, tecnico_id, tomado_en, punto, precision_m, fuente)
+SELECT
+  i.id,
+  a.tecnico_id,
+  i.planificada_desde + gs * INTERVAL '10 min',
+  ST_SetSRID(ST_MakePoint(
+    -58.06 + (ROW_NUMBER() OVER (ORDER BY i.id)) * 0.0009 + gs*0.00015,
+    -34.97 + (ROW_NUMBER() OVER (ORDER BY i.id)) * 0.0006 + gs*0.00010
+  ), 4326),
+  2.5 + (random()*2.0),
+  'gps'
+FROM operacion.sdg_inspeccion i
+JOIN operacion.sdg_asignacion a ON a.inspeccion_id = i.id
+CROSS JOIN generate_series(0,17) gs
+WHERE i.codigo BETWEEN 'INSP-2025-301' AND 'INSP-2025-420'
+  AND NOT EXISTS (
+    SELECT 1 FROM operacion.sdg_tracking_posicion tp
+    WHERE tp.inspeccion_id = i.id
+  );
+
+-- Generar/actualizar trayecto (línea) por inspección
+INSERT INTO operacion.sdg_trayecto (inspeccion_id, linea, calculado_en)
+SELECT i.id,
+       ST_MakeLine(tp.punto ORDER BY tp.tomado_en),
+       now()
+FROM operacion.sdg_inspeccion i
+JOIN operacion.sdg_tracking_posicion tp ON tp.inspeccion_id = i.id
+WHERE i.codigo BETWEEN 'INSP-2025-301' AND 'INSP-2025-420'
+GROUP BY i.id
+ON CONFLICT (inspeccion_id) DO UPDATE
+SET linea = EXCLUDED.linea, calculado_en = now();
+
+-- =========================================================
+-- 5) Hallazgos (1..3 por inspección_tramo)
+-- =========================================================
+-- Uno principal al 35% del tramo
+INSERT INTO operacion.sdg_hallazgo
+  (inspeccion_tramo_id, tipo_id, severidad_id, descripcion, ubicacion, detectado_en, detectado_por)
+SELECT
+  it.id,
+  1 + (ROW_NUMBER() OVER (ORDER BY it.id) % 5),
+  1 + (ROW_NUMBER() OVER (ORDER BY it.id) % 4),
+  format('Hallazgo principal IT:%s', it.id),
+  ST_LineInterpolatePoint(t.geom, 0.35),
+  i.planificada_desde + INTERVAL '50 min',
+  a.tecnico_id
+FROM operacion.sdg_inspeccion_tramo it
+JOIN operacion.sdg_inspeccion i ON i.id = it.inspeccion_id
+JOIN geo.sdg_tramo t            ON t.id = it.tramo_id
+JOIN operacion.sdg_asignacion a ON a.inspeccion_id = i.id
+WHERE i.codigo BETWEEN 'INSP-2025-301' AND 'INSP-2025-420';
+
+-- Segundo hallazgo (50% de los IT) al 70%
+INSERT INTO operacion.sdg_hallazgo
+  (inspeccion_tramo_id, tipo_id, severidad_id, descripcion, ubicacion, detectado_en, detectado_por)
+SELECT
+  it.id,
+  1 + ((ROW_NUMBER() OVER (ORDER BY it.id)+1) % 5),
+  1 + ((ROW_NUMBER() OVER (ORDER BY it.id)+2) % 4),
+  format('Hallazgo secundario IT:%s', it.id),
+  ST_LineInterpolatePoint(t.geom, 0.70),
+  i.planificada_desde + INTERVAL '70 min',
+  a.tecnico_id
+FROM (
+  SELECT it.*, ROW_NUMBER() OVER (ORDER BY it.id) AS rn
+  FROM operacion.sdg_inspeccion_tramo it
+  JOIN operacion.sdg_inspeccion i ON i.id = it.inspeccion_id
+  WHERE i.codigo BETWEEN 'INSP-2025-301' AND 'INSP-2025-420'
+) it
+JOIN operacion.sdg_inspeccion i ON i.id = it.inspeccion_id
+JOIN geo.sdg_tramo t            ON t.id = it.tramo_id
+JOIN operacion.sdg_asignacion a ON a.inspeccion_id = i.id
+WHERE (it.rn % 2) = 0;
+
+-- Tercer hallazgo (25% de los IT) cerca del inicio
+INSERT INTO operacion.sdg_hallazgo
+  (inspeccion_tramo_id, tipo_id, severidad_id, descripcion, ubicacion, detectado_en, detectado_por)
+SELECT
+  it.id,
+  5, 2,
+  'Obstrucción parcial (auto)',
+  ST_LineInterpolatePoint(t.geom, 0.10),
+  i.planificada_desde + INTERVAL '40 min',
+  a.tecnico_id
+FROM (
+  SELECT it.*, ROW_NUMBER() OVER (ORDER BY it.id) AS rn
+  FROM operacion.sdg_inspeccion_tramo it
+  JOIN operacion.sdg_inspeccion i ON i.id = it.inspeccion_id
+  WHERE i.codigo BETWEEN 'INSP-2025-301' AND 'INSP-2025-420'
+) it
+JOIN operacion.sdg_inspeccion i ON i.id = it.inspeccion_id
+JOIN geo.sdg_tramo t            ON t.id = it.tramo_id
+JOIN operacion.sdg_asignacion a ON a.inspeccion_id = i.id
+WHERE (it.rn % 4) = 0;
+
+-- =========================================================
+-- 6) Intervenciones (~70% de hallazgos)
+-- =========================================================
+WITH pick AS (
+  SELECT h.id, h.detectado_por, h.detectado_en,
+         CASE WHEN random() < 0.25 THEN 3 WHEN random() < 0.50 THEN 2 ELSE 1 END AS tipo_iv
+  FROM operacion.sdg_hallazgo h
+  JOIN operacion.sdg_inspeccion_tramo it ON it.id = h.inspeccion_tramo_id
+  JOIN operacion.sdg_inspeccion i ON i.id = it.inspeccion_id
+  WHERE i.codigo BETWEEN 'INSP-2025-301' AND 'INSP-2025-420'
+    AND random() < 0.70
+)
+INSERT INTO operacion.sdg_intervencion (hallazgo_id, tipo_id, descripcion, realizado_por, realizado_en)
+SELECT id, tipo_iv, 'Intervención auto', detectado_por, detectado_en + INTERVAL '35 min'
+FROM pick;
+
+-- =========================================================
+-- 7) Adjuntos de evidencia y actas
+-- =========================================================
+INSERT INTO operacion.sdg_adjunto (entidad, entidad_id, nombre_archivo, mime_type, url, subido_por, subido_en)
+SELECT 'hallazgo', h.id,
+       format('foto_%s.jpg', h.id),
+       'image/jpeg',
+       format('https://cdn.sdg.local/evidencia/%s.jpg', h.id),
+       (SELECT id FROM seguridad.sdg_usuario WHERE username='lrodriguez'),
+       h.detectado_en + INTERVAL '6 min'
+FROM operacion.sdg_hallazgo h
+JOIN operacion.sdg_inspeccion_tramo it ON it.id = h.inspeccion_tramo_id
+JOIN operacion.sdg_inspeccion i ON i.id = it.inspeccion_id
+WHERE i.codigo BETWEEN 'INSP-2025-301' AND 'INSP-2025-420'
+  AND random() < 0.50;
+
+INSERT INTO operacion.sdg_adjunto (entidad, entidad_id, nombre_archivo, mime_type, url, subido_por, subido_en)
+SELECT 'intervencion', iv.id,
+       format('acta_%s.pdf', iv.id),
+       'application/pdf',
+       format('https://cdn.sdg.local/actas/%s.pdf', iv.id),
+       (SELECT id FROM seguridad.sdg_usuario WHERE username='marias'),
+       iv.realizado_en + INTERVAL '8 min'
+FROM operacion.sdg_intervencion iv
+JOIN operacion.sdg_hallazgo h ON h.id = iv.hallazgo_id
+JOIN operacion.sdg_inspeccion_tramo it ON it.id = h.inspeccion_tramo_id
+JOIN operacion.sdg_inspeccion i ON i.id = it.inspeccion_id
+WHERE i.codigo BETWEEN 'INSP-2025-301' AND 'INSP-2025-420'
+  AND random() < 0.60;
+
+-- =========================================================
+-- 8) Cambios de estado (Asignada → En proceso → Cerrada)
+--    + aplicar el estado actual en la tabla principal
+-- =========================================================
+-- Asignada
+INSERT INTO auditoria.sdg_inspeccion_estado_historial (inspeccion_id, estado_id, cambiado_por, cambiado_en)
+SELECT i.id, 2, (SELECT id FROM seguridad.sdg_usuario WHERE username='marias'),
+       i.planificada_desde - INTERVAL '2 hours'
+FROM operacion.sdg_inspeccion i
+WHERE i.codigo BETWEEN 'INSP-2025-301' AND 'INSP-2025-420';
+
+-- En proceso
+INSERT INTO auditoria.sdg_inspeccion_estado_historial (inspeccion_id, estado_id, cambiado_por, cambiado_en)
+SELECT i.id, 3, (SELECT id FROM seguridad.sdg_usuario WHERE username='marias'),
+       i.planificada_desde + INTERVAL '10 min'
+FROM operacion.sdg_inspeccion i
+WHERE i.codigo BETWEEN 'INSP-2025-301' AND 'INSP-2025-420';
+
+-- Cerrada (70%)
+INSERT INTO auditoria.sdg_inspeccion_estado_historial (inspeccion_id, estado_id, cambiado_por, cambiado_en)
+SELECT i.id, 5, (SELECT id FROM seguridad.sdg_usuario WHERE username='marias'),
+       i.planificada_hasta + INTERVAL '20 min'
+FROM operacion.sdg_inspeccion i
+WHERE i.codigo BETWEEN 'INSP-2025-301' AND 'INSP-2025-420'
+  AND (substring(i.codigo from '\d+$')::int % 10) <> 1;
+
+-- Reflejar último estado en la entidad principal
+UPDATE operacion.sdg_inspeccion i
+SET estado_id = sub.estado_id
+FROM (
+  SELECT DISTINCT ON (h.inspeccion_id) h.inspeccion_id, h.estado_id
+  FROM auditoria.sdg_inspeccion_estado_historial h
+  WHERE h.cambiado_en IS NOT NULL
+  ORDER BY h.inspeccion_id, h.cambiado_en DESC
+) sub
+WHERE i.id = sub.inspeccion_id;
+
+-- =========================================================
+-- 9) Reasignaciones reales (dispara historial + evento)
+--    Cambiamos técnico en ~20% de inspecciones
+-- =========================================================
+WITH tgt AS (
+  SELECT i.id, i.codigo,
+         ROW_NUMBER() OVER (ORDER BY i.codigo) AS rn
+  FROM operacion.sdg_inspeccion i
+  WHERE i.codigo BETWEEN 'INSP-2025-301' AND 'INSP-2025-420'
+    AND (substring(i.codigo from '\d+$')::int % 5) = 0
+),
+tecs AS (
+  SELECT t.id, t.legajo, ROW_NUMBER() OVER (ORDER BY t.legajo) AS trn
+  FROM operacion.sdg_tecnico t
+)
+UPDATE operacion.sdg_asignacion a
+SET tecnico_id = te.id, motivo_id = 2
+FROM tgt
+JOIN tecs te ON te.trn = ((tgt.rn + 1) % (SELECT COUNT(*) FROM tecs)) + 1
+WHERE a.inspeccion_id = tgt.id
+  AND a.tecnico_id IS DISTINCT FROM te.id;
+
+-- =========================================================
+-- 10) Cambios SCD2 en tramos (dispara versionado)
+-- =========================================================
+UPDATE geo.sdg_tramo
+SET presion_oper_kpa = presion_oper_kpa + (25 + (random()*25))
+WHERE codigo BETWEEN 'TR-101' AND 'TR-160' AND (random() < 0.25);
+
+COMMIT;
+```
+
+# Dashboards Grafana
+![[Pasted image 20251021230032.png]]
+
+![[Pasted image 20251021230042.png]]
+
+![[Pasted image 20251021230050.png]]
