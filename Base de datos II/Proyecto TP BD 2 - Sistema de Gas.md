@@ -1,37 +1,12 @@
-#proyecto
+#proyecto | Luciano Esteban | Bases de datos 2
 
-![[Pasted image 20251021200946.png]]
+![[Pasted image 20251021200946.png | 500]]
 
-https://console.neon.tech/app/projects/lucky-surf-72935361/branches/br-cold-shape-ac8vtnsq?branchId=br-cold-shape-ac8vtnsq&database=sistema_gas
-
-![[Pasted image 20251021200248.png]]
-
-Sin pooling
-
-```bash
-psql 'postgresql://neondb_owner:npg_yuS1G4YJnsrb@ep-misty-cherry-acuelwjl.sa-east-1.aws.neon.tech/sistema_gas?sslmode=require&channel_binding=require'
-
-psql -h pg.neon.tech
-
-Password: npg_yuS1G4YJnsrb
-```
-
-- **Host URL:** `ep-misty-cherry-acuelwjl.sa-east-1.aws.neon.tech`
-- **Database:** `sistema_gas`
-- **Username:** `neondb_owner`
-- **Password:** la de Neon
-- **TLS/SSL Mode:** `require`
-- **Port:** `5432`
-- **PostgreSQL Version:** `15`
-
-
----
-
+![[Pasted image 20251021230403.png | 500]]
 
 # Diagrama
 ## DER
 ![[Pasted image 20251021215830.png]]
-
 ## DBDiagram.io
 ```sql
 Project sistema_gas {
