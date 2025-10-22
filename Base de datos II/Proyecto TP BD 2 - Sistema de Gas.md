@@ -2156,7 +2156,7 @@ ORDER BY total DESC;
 
 ---
 
-# Datos masivos
+# Adición de más datos
 ```sql
 BEGIN;
 
@@ -2528,7 +2528,6 @@ WHERE codigo BETWEEN 'TR-101' AND 'TR-160' AND (random() < 0.25);
 
 COMMIT;
 ```
-
 # Dashboards Grafana
 ![[Pasted image 20251021230032.png]]
 
