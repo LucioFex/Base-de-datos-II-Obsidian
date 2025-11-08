@@ -124,7 +124,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "18",
+                "query": "promo",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -145,7 +145,8 @@
               "title": "Bookmarks"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -252,7 +253,7 @@
       "mermaid-tools:Open Mermaid Toolbar": false
     }
   },
-  "active": "23feb43608904661",
+  "active": "a512e63ea23029f3",
   "lastOpenFiles": [
     "Pasted image 20251021230403.png",
     "Untitled.md",

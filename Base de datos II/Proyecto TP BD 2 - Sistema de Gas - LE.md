@@ -1,4 +1,12 @@
-#proyecto | Luciano Esteban | Bases de datos 2 | Ininf 2025
+#proyecto | Alum: Luciano Esteban | Bases de datos 2 | ININF 2025 | Prof: Mario Samuel Moreno
+
+**Fecha**: 20/10/2025
+
+**Acceso a la BD vía CLI (hosteada en AWS con Neon)**:
+```sql
+-- Adjunto el acceso con contraseña incluída (dado que es un BD académica):
+psql 'postgresql://neondb_owner:npg_yuS1G4YJnsrb@ep-misty-cherry-acuelwjl-pooler.sa-east-1.aws.neon.tech/sistema_gas?sslmode=require&channel_binding=require'
+```
 
 **Contenido**
 ```table-of-contents
@@ -294,6 +302,9 @@ Table sdg_vw_inspeccion_ultimo_estado {
 ```
 
 # SQL - Postgres 15
+
+ - *Nota 1*: En esta primera instancia los nombres de las tablas, SP y triggers están anotaciones sin utilizar las convenciones pertinentes. Las mismas fueron aplicadas en el bloque posterior "**Seguimiento de buenas prácticas**", con el fin de utilizar sentencias como ALTER TABLE, entre otras.
+ - *Nota 2*: El prefijo SDG corresponde a "Sistema de Gas".
 
 ```sql
 -- =========================================================
