@@ -7,7 +7,7 @@
 -- Adjunto el acceso con contraseña incluída (dado que es un BD académica):
 psql 'postgresql://neondb_owner:npg_yuS1G4YJnsrb@ep-misty-cherry-acuelwjl-pooler.sa-east-1.aws.neon.tech/sistema_gas?sslmode=require&channel_binding=require'
 
--- Nota: Mario, comprendo las implicancias que tiene el compartir este dato en un repo público de GitHub, sin embargo, la misma solo estará disponible por un corto periodo de tiempo hasta recibir feedback de tu parte en la entrega. Saludos.
+-- Nota: Mario, entiendo las implicancias de seguridad de compartir este dato en un repositorio público de GitHub. No obstante, la voy a mantener disponible únicamente por un periodo breve, hasta recibir tu feedback sobre la entrega. Saludos.
 ```
 
 **Contenido**
