@@ -304,7 +304,7 @@ Table sdg_vw_inspeccion_ultimo_estado {
 # SQL - Postgres 15
 
  - *Nota 1*: En esta primera instancia los nombres de las tablas, SP y triggers están anotaciones sin utilizar las convenciones pertinentes. Las mismas fueron aplicadas en el bloque posterior "**Seguimiento de buenas prácticas**", con el fin de utilizar sentencias como ALTER TABLE, entre otras.
- - *Nota 2*: El prefijo SDG corresponde a "Sistema de Gas".
+ - *Nota 2*: El prefijo "*SDG*" corresponde a "*Sistema de Gas*".
 
 ```sql
 -- =========================================================
